@@ -7,5 +7,6 @@ namespace DataAccess.Interfaces
 {
     public interface IAlumnoRepository: IGenericRepository<Alumno>
     {
+
     }
 }

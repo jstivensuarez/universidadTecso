@@ -39,9 +39,9 @@ namespace DataAccess.AccessImplementation
             return query;
         }
 
-        public IQueryable<T> GetAll()
+        public List<T> GetAll()
         {
-            IQueryable<T> query = _context.Set<T>();
+            List<T> query = _context.Set<T>().ToList();
             return query;
         }
 

@@ -7,7 +7,7 @@ using System.Text;
 namespace Model.Models
 {
     [Table("docentes")]
-    public class Docentes
+    public class Docente
     {
         [Key]
         [Column("id_docente")]

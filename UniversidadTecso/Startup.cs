@@ -13,6 +13,12 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore;
+using BusinessLogic.Interfaces;
+using BusinessLogic.BusinessImplementation;
+using DataAccess.AccessImplementation;
+using DataAccess.Interfaces;
+using AutoMapper;
+using Model;
 
 namespace UniversidadTecso
 {
@@ -30,6 +36,17 @@ namespace UniversidadTecso
         {
             services.AddDbContext<UniversidadContext>(options =>
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MapperManager());
+            });
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
+            services.AddScoped<IAlumnoRepository, AlumnoRepository>();
+            services.AddScoped<IAlumnoService, AlumnoService>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
