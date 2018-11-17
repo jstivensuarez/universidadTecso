@@ -13,5 +13,6 @@ namespace BusinessLogic.BusinessImplementation
     public class AlumnoService: GenericService<Alumno, AlumnoDto>, IAlumnoService 
     {
         public AlumnoService(IAlumnoRepository repository, IMapper mapper) : base(repository, mapper) {}
+
     }
 }
