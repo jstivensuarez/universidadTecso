@@ -6,7 +6,7 @@ namespace Model.Dtos
 {
     public class DocenteDto
     {
-        public int Id { get; set; }
+        public int DocenteId { get; set; }
 
         public string Nombre { get; set; }
 

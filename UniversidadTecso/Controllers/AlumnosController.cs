@@ -1,7 +1,10 @@
 ﻿using BusinessLogic.Interfaces;
+using DataAccess;
 using Microsoft.AspNetCore.Mvc;
 using Model.Dtos;
+using Model.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace UniversidadTecso.Controllers
@@ -11,6 +14,7 @@ namespace UniversidadTecso.Controllers
     public class AlumnosController : ControllerBase
     {
         readonly IAlumnoService alumnoService;
+
         public AlumnosController(IAlumnoService alumnoService)
         {
             this.alumnoService = alumnoService;

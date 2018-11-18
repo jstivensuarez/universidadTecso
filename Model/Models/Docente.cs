@@ -11,7 +11,7 @@ namespace Model.Models
     {
         [Key]
         [Column("id_docente")]
-        public int Id { get; set; }
+        public int DocenteId { get; set; }
 
         [Column("nombre")]
         public string Nombre { get; set; }

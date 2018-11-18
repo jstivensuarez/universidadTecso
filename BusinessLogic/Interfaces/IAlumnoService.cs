@@ -9,6 +9,6 @@ namespace BusinessLogic.Interfaces
 {
     public interface IAlumnoService: IGenericService<Alumno, AlumnoDto>
     {
-      
+        List<Alumno> GetAllWithInclude();
     }
 }

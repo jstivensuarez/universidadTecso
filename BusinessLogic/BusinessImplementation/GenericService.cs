@@ -28,6 +28,7 @@ namespace BusinessLogic.BusinessImplementation
             try
             {
                 repository.Add(mapper.Map<T>(entity));
+                repository.Save();
             }
             catch (ExceptionData)
             {
@@ -46,6 +47,7 @@ namespace BusinessLogic.BusinessImplementation
             try
             {
                 repository.Delete(mapper.Map<T>(entity));
+                repository.Save();
             }
             catch (ExceptionData)
             {
@@ -63,6 +65,7 @@ namespace BusinessLogic.BusinessImplementation
             try
             {
                 repository.Edit(mapper.Map<T>(entity));
+                repository.Save();
             }
             catch (ExceptionData)
             {

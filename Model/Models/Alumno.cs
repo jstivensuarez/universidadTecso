@@ -11,7 +11,7 @@ namespace Model.Models
     {
         [Key]
         [Column("id_alumno")]
-        public int Id { get; set; }
+        public int AlumnoId { get; set; }
 
         [Column("nombre")]
         public string Nombre { get; set; }
@@ -29,6 +29,6 @@ namespace Model.Models
         public DateTime FechaNacimiento { get; set; }
 
 
-        public List<Inscripcion> Inscripciones { get; set; }
+        public List<Inscripcion> Inscripciones { get; set; } = new List<Inscripcion>();
     }
 }

@@ -27,7 +27,6 @@ namespace DataAccess.AccessImplementation
             }
             catch (Exception ex)
             {
-
                 throw new ExceptionData("error al agregar la entidad", ex);
             }
             
@@ -87,7 +86,7 @@ namespace DataAccess.AccessImplementation
             
         }
 
-        public List<T> GetAll()
+        public virtual List<T> GetAll()
         {
             try
             {
