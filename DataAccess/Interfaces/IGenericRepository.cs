@@ -10,6 +10,7 @@ namespace DataAccess.Interfaces
     {
         List<T> GetAll();
         IQueryable<T> Find(Expression<Func<T, bool>> predicate);
+        T Find(int id);
         void Add(T entity);
         void Delete(T entity);
         void Edit(T entity);

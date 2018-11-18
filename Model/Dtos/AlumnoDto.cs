@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,7 +7,7 @@ namespace Model.Dtos
 {
     public class AlumnoDto
     {
-        public int Id { get; set; }
+        public int AlumnoId { get; set; }
 
         public string Nombre { get; set; }
 
@@ -25,5 +26,7 @@ namespace Model.Dtos
                 return $"{Nombre} {PrimerApellido}";
             }
         }
+
+        public List<InscripcionDto> Inscripciones { get; } = new List<InscripcionDto>();
     }
 }

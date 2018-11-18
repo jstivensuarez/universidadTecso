@@ -11,13 +11,13 @@ namespace Model.Models
     {
         [Key]
         [Column("id_inscripcion")]
-        public int Id { get; set; }
+        public int InscripcionId { get; set; }
 
         [Column("id_alumno")]
-        public int IdAlumno { get; set; }
+        public int AlumnoId { get; set; }
 
         [Column("id_curso")]
-        public int IdCurso { get; set; }
+        public int CursoId { get; set; }
 
         [Column("fecha_inscripcion")]
         public DateTime FechaInscripcion { get; set; }

@@ -1,4 +1,5 @@
-﻿using DataAccess.Interfaces;
+﻿using DataAccess.exceptions;
+using DataAccess.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -20,29 +21,83 @@ namespace DataAccess.AccessImplementation
 
         public void Add(T entity)
         {
-            _context.Set<T>().Add(entity);
+            try
+            {
+                _context.Set<T>().Add(entity);
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionData("error al agregar la entidad", ex);
+            }
+            
         }
 
         public void Delete(T entity)
         {
-            _context.Set<T>().Remove(entity);
+            try
+            {
+                _context.Set<T>().Remove(entity);
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionData("error al eliminar la entidad", ex);
+            }
+            
         }
 
         public void Edit(T entity)
         {
-            _context.Entry(entity).State = EntityState.Modified;
+            try
+            {
+               _context.Entry(entity).State = EntityState.Modified;
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionData("error al editar la entidad", ex);
+            }
+           
         }
 
         public IQueryable<T> Find(Expression<Func<T, bool>> predicate)
         {
-            IQueryable<T> query = _context.Set<T>().Where(predicate);
-            return query;
+            try
+            {
+                IQueryable<T> query = _context.Set<T>().Where(predicate);
+                return query;
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionData("error al buscar la entidad", ex);
+            }
+           
         }
 
-        public List<T> GetAll()
+        public T Find(int id)
         {
-            List<T> query = _context.Set<T>().ToList();
-            return query;
+            try
+            {
+                T entity = _context.Set<T>().Find(id);
+                return entity;
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionData("error al buscar la entidad", ex);
+            }
+            
+        }
+
+        public virtual List<T> GetAll()
+        {
+            try
+            {
+                List<T> query = _context.Set<T>().ToList();
+                return query;
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionData("error al obetener las entidades", ex);
+            }
+            
         }
 
         public void Save()

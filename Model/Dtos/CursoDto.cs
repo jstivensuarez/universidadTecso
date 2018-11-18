@@ -6,12 +6,14 @@ namespace Model.Dtos
 {
     public class CursoDto
     {
-        public int Id { get; set; }
+        public int CursoId { get; set; }
 
         public string Asignatura { get; set; }
 
         public int CupoMaximo { get; set; }
 
-        public int IdDocente { get; set; }
+        public int DocenteId { get; set; }
+
+        public List<InscripcionDto> Inscripciones { get; } = new List<InscripcionDto>();
     }
 }

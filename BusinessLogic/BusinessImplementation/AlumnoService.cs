@@ -12,6 +12,16 @@ namespace BusinessLogic.BusinessImplementation
 {
     public class AlumnoService: GenericService<Alumno, AlumnoDto>, IAlumnoService 
     {
-        public AlumnoService(IAlumnoRepository repository, IMapper mapper) : base(repository, mapper) {}
+       readonly IAlumnoRepository repository;
+
+        public AlumnoService(IAlumnoRepository repository, IMapper mapper) : base(repository, mapper)
+        {
+            this.repository = repository;
+        }
+
+        public List<Alumno> GetAllWithInclude()
+        {
+            return repository.GetAllWithInclude();
+        }
     }
 }

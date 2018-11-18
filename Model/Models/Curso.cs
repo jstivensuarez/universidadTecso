@@ -11,7 +11,7 @@ namespace Model.Models
     {
         [Key]
         [Column("id_curso")]
-        public int Id { get; set; }
+        public int CursoId { get; set; }
 
         [Column("asignatura")]
         public string Asignatura { get; set; }
@@ -20,9 +20,9 @@ namespace Model.Models
         public int CupoMaximo { get; set; }
 
         [Column("id_docente")]
-        public int IdDocente { get; set; }
+        public int DocenteId { get; set; }
 
 
-        public List<Inscripcion> Inscripciones { get; set; }
+        public List<Inscripcion> Inscripciones { get;} = new List<Inscripcion>();
     }
 }
