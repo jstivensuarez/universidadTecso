@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinessLogic.exceptions;
 using BusinessLogic.Interfaces;
+using BusinessLogic.util;
 using DataAccess.exceptions;
 using DataAccess.Interfaces;
 using Model.Dtos;
@@ -155,13 +156,11 @@ namespace BusinessLogic.BusinessImplementation
                 var courses = repository.GetAll();
                 var coursesDto = mapper.Map<List<CursoDto>>(courses);
                 var inscriptions = inscripcionRepository.GetIncripcionesByAlumno(alumnoId)
-                    .Where(i => i.Estado != 3);
+                    .Where(i => i.Estado != (int)Estados.NoRegular && i.Estado != (int)Estados.Regular);
                 foreach (var item in inscriptions)
                 {
-                    if (item.Estado == 1)
+                    if (item.Estado == (int)Estados.Inscripto)
                         coursesDto.Find(c => c.CursoId == item.CursoId).EstaInscrita = true;
-                    else
-                        coursesDto.Remove(coursesDto.Find(c => c.CursoId == item.CursoId));                   
                 }
                 return coursesDto;
             }
@@ -179,23 +178,28 @@ namespace BusinessLogic.BusinessImplementation
         {
             try
             {
-                var courses = mapper.Map <List<CursoDto>>(repository.GetAllwithInclude());
-                var coursesDto =new List<CursoDto>();
+                var courses = mapper.Map<List<CursoDto>>(repository.GetAllwithInclude());
+                var coursesDto = new List<CursoDto>();
                 var inscriptions = inscripcionRepository.GetIncripcionesByAlumno(alumnoId);
-                var inscriptionsCompleted = inscriptions.Where(i => i.Estado != 1 && i.Estado != 2).ToList();
+                var inscriptionsCompleted = inscriptions.Where(i => i.Estado != (int)Estados.Inscripto
+                && i.Estado != (int)Estados.Regular).ToList();
                 foreach (var item in courses)
                 {
                     var inscription = inscriptions.FirstOrDefault(i => i.CursoId == item.CursoId);
-                    if (inscription == null) {
+                    if (inscription == null)
+                    {
                         var courseDto = mapper.Map<CursoDto>(item);
                         coursesDto.Add(courseDto);
                     }
                 }
                 foreach (var item in inscriptionsCompleted)
-                {
-                    var courseDto = courses.Find(i => i.CursoId == item.CursoId);
-                    courseDto.Estado = item.Estado;
-                    coursesDto.Add(courseDto);
+                {      
+                    if (coursesDto.Find(c => c.CursoId == item.CursoId) == null)
+                    {
+                        var courseDto = courses.Find(i => i.CursoId == item.CursoId);
+                        courseDto.Estado = item.Estado;
+                        coursesDto.Add(courseDto);
+                    }
                 }
                 return coursesDto.OrderBy(c => c.Estado).ToList();
             }

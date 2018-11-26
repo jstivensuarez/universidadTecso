@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinessLogic.exceptions;
 using BusinessLogic.Interfaces;
+using BusinessLogic.util;
 using DataAccess.exceptions;
 using DataAccess.Interfaces;
 using Model.Dtos;
@@ -18,7 +19,7 @@ namespace BusinessLogic.BusinessImplementation
         readonly IInscripcionRepository inscripcionRepository;
         readonly IMapper mapper;
 
-        public AlumnoService(IAlumnoRepository repository, IInscripcionRepository inscripcionRepository, 
+        public AlumnoService(IAlumnoRepository repository, IInscripcionRepository inscripcionRepository,
             IMapper mapper)
         {
             this.repository = repository;
@@ -72,24 +73,28 @@ namespace BusinessLogic.BusinessImplementation
 
                 foreach (var item in entity.Cursos)
                 {
-                    var inscriptionResult = inscriptions.Find(i => i.CursoId == item.CursoId);
-                    if (inscriptionResult != null)
+                    var inscriptionResult = inscriptions.SingleOrDefault(i => i.CursoId == item.CursoId
+                        && i.Estado == (int)Estados.Inscripto);
+                    if (inscriptionResult != null && !item.EstaInscrita)
                     {
-                        if (!item.EstaInscrita && inscriptionResult.Estado == 1)
-                        {
-                            inscriptionResult.Estado = 0;
-                        }
+                        inscriptionResult.Estado = (int)Estados.SinRegistrar;
                     }
-                    else if (item.EstaInscrita)
+                    else 
                     {
-
-                        InscripcionDto newIncription = new InscripcionDto
+                        if (item.EstaInscrita && (inscriptionResult== null) || (inscriptionResult != null &&
+                            inscriptionResult.Estado != 1))
                         {
-                            AlumnoId = entity.AlumnoId,
-                            CursoId = item.CursoId,
-                            Estado = 1
-                        };
-                        inscripcionRepository.Add(mapper.Map<Inscripcion>(newIncription));
+                            InscripcionDto newIncription = new InscripcionDto
+                            {
+                                AlumnoId = entity.AlumnoId,
+                                CursoId = item.CursoId,
+                                FechaInscripcion = DateTime.Now,
+                                Estado = (int)Estados.Inscripto
+                            };
+                            inscripcionRepository.Add(mapper.Map<Inscripcion>(newIncription));
+                        }
+
+                       
 
                     }
                 }
@@ -181,9 +186,9 @@ namespace BusinessLogic.BusinessImplementation
             try
             {
                 var result = (from i in inscripcionRepository.GetIncripcionesByCourse(courseId)
-                        join a in repository.GetAll() on i.AlumnoId equals a.AlumnoId
-                        where i.Estado == 1
-                        select a).ToList();
+                              join a in repository.GetAll() on i.AlumnoId equals a.AlumnoId
+                              where i.Estado == (int)Estados.Inscripto
+                              select a).ToList();
                 return mapper.Map<List<AlumnoDto>>(result);
             }
             catch (ExceptionData)
