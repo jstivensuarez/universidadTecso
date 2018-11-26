@@ -1,5 +1,6 @@
 ﻿using BusinessLogic.Interfaces;
 using DataAccess;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Model.Dtos;
 using Model.Models;
@@ -11,6 +12,7 @@ namespace UniversidadTecso.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("MyPolicy")]
     public class AlumnosController : ControllerBase
     {
         readonly IAlumnoService alumnoService;
@@ -34,12 +36,28 @@ namespace UniversidadTecso.Controllers
         }
 
         // GET: api/Estudiantes/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet()]
+        [Route("[action]/{id}")]
         public IActionResult Get(int id)
         {
             try
             {
                 return Ok(alumnoService.Find(id));
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        // GET: api/Estudiantes/5
+        [HttpGet()]
+        [Route("[action]/{courseId}")]
+        public IActionResult GetByCourseId(int courseId)
+        {
+            try
+            {
+                return Ok(alumnoService.GetByCourseId(courseId));
             }
             catch (Exception)
             {
@@ -58,11 +76,11 @@ namespace UniversidadTecso.Controllers
                     return BadRequest(ModelState);
                 }
                 alumnoService.Add(alumno);
-                return Ok();
+                return Ok(alumno);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
@@ -76,17 +94,12 @@ namespace UniversidadTecso.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                var entity = alumnoService.Find(id);
-                if (entity == null)
-                {
-                    return NotFound();
-                }
                 alumnoService.Edit(alumno);
-                return Ok();
+                return Ok(alumno);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 

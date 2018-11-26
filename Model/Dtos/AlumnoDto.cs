@@ -27,6 +27,6 @@ namespace Model.Dtos
             }
         }
 
-        public List<InscripcionDto> Inscripciones { get; } = new List<InscripcionDto>();
+        public List<CursoDto> Cursos { get; set; } = new List<CursoDto>();
     }
 }

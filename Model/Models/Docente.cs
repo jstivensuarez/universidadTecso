@@ -21,5 +21,7 @@ namespace Model.Models
 
         [Column("segundo_apellido")]
         public string SegundoApellido { get; set; }
+
+
     }
 }

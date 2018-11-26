@@ -16,7 +16,7 @@ namespace Model.Dtos
 
         public int Estado { get; set; }
 
-        public AlumnoDto Alumno { get; set; }
+        public CursoDto Alumno { get; set; }
 
         public CursoDto Curso { get; set; }
     }

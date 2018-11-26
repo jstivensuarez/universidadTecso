@@ -22,7 +22,6 @@ namespace Model.Models
         [Column("id_docente")]
         public int DocenteId { get; set; }
 
-
-        public List<Inscripcion> Inscripciones { get;} = new List<Inscripcion>();
+        public Docente Docente { get; set; } 
     }
 }

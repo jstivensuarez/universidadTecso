@@ -9,6 +9,10 @@ namespace BusinessLogic.Interfaces
 {
     public interface IAlumnoService: IGenericService<Alumno, AlumnoDto>
     {
-        List<Alumno> GetAllWithInclude();
+        List<AlumnoDto> GetAllWithInclude();
+
+        string GetLegajo(AlumnoDto alumno);
+
+        List<AlumnoDto> GetByCourseId(int courseId);
     }
 }

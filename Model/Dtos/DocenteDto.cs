@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Model.Dtos
+﻿namespace Model.Dtos
 {
     public class DocenteDto
     {
@@ -13,5 +9,13 @@ namespace Model.Dtos
         public string PrimerApellido { get; set; }
 
         public string SegundoApellido { get; set; }
+
+        public string NombreCompleto
+        {
+            get
+            {
+                return $"{Nombre} {PrimerApellido}";
+            }
+        }
     }
 }

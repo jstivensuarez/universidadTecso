@@ -12,7 +12,7 @@ namespace Model
         public MapperManager()
         {
             // Add as many of these lines as you need to map your objects
-            CreateMap<Alumno, AlumnoDto>();
+            CreateMap<Alumno, AlumnoDto>().ForMember(a => a.Cursos, opt=> opt.Ignore());
             CreateMap<AlumnoDto, Alumno>();
 
             CreateMap<Curso, CursoDto>();

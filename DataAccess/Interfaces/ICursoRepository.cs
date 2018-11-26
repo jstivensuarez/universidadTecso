@@ -7,5 +7,6 @@ namespace DataAccess.Interfaces
 {
     public interface ICursoRepository: IGenericRepository<Curso>
     {
+        List<Curso> GetAllwithInclude();
     }
 }
